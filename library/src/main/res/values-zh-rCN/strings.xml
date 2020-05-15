@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="permisson_location_open">去开启</string>
+    <string name="miss_permissions_config_title">缺少部分权限，需要手动开启</string>
+
+    <string name="permisson_location_title">位置信息权限未开启</string>
+    <string name="permisson_location_tips">蓝牙搜索需要授权位置信息权限</string>
+
+    <string name="cancel">取消</string>
+    <string name="sure">确认</string>
+    <string name="ok">确定</string>
+    <string name="tips_title">提示</string>
+
+</resources>

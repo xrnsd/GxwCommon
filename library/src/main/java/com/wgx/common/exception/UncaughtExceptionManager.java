@@ -13,6 +13,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
+import com.wgx.common.base.Utils;
+
 /**
  * action:全局异常管理器，异常的信息保存和处理<br/>
  * <br/>
@@ -63,7 +65,7 @@ public class UncaughtExceptionManager implements UncaughtExceptionHandler {
         if (isEnableAutoReset()) {
             if (isDebug())
                 android.util.Log.d(TAG+">uncaughtException>", "clear " + mContext.getPackageName());
-            com.wgx.common.Utils.runCommand("pm", "clear", mContext.getPackageName());
+            Utils.runCommand("pm", "clear", mContext.getPackageName());
         }
         if (isEnableReStart()) {
             reStart(1000);

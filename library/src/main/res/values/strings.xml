@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="_permisson_location_open">to open</string>
+    <string name="miss_permissions_config_title">Some permissions are missing and need to be turned on manually</string>
+
+    <string name="permisson_location_title">Location permissions are not turned on</string>
+    <string name="permisson_location_tips">Bluetooth search requires authorization for location information</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="sure">Confirm</string>
+    <string name="ok">OK</string>
+    <string name="tips_title">Tips</string>
+</resources>
