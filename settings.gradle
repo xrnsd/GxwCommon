@@ -1,0 +1,3 @@
+rootProject.name='WgxCommonLibrary'
+include ':app'
+include ':library'

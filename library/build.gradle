@@ -1,0 +1,104 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 1
+        versionName "V${buildTime()}"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+        ndk {
+            moduleName "serial_port"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    externalNativeBuild {
+        ndkBuild {
+            path 'src/main/jni/Android.mk'
+        }
+    }
+    //生成文件的名称设定
+    android.libraryVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "${rootProject.name}_${variant.buildType.name}_${android.defaultConfig.versionName}.aar"
+            //outputFileName = "${project.name}_${variant.buildType.name}_${android.defaultConfig.versionName}.aar"
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
+
+
+def buildTime() {
+    return new Date().format('yyyyMMdd_HHmm');
+}
+
+def createDir = {
+    path ->
+        File dir = new File(path)
+        if (!dir.exists()) {
+            dir.mkdirs()
+        }
+        println "Generate the corresponding directory path is" + dir.toString()
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+task aarRelease(type: Copy) {
+    // 任务开始
+    println "----------> AAR Release Task Start <----------"
+
+    def moduleName = "library"
+    def rootPath = rootProject.rootDir.path
+    def rootPathModuleArr = rootPath + "/" + moduleName
+    // AAR所在的编译路径
+    def buildPathArrRoot = rootPathModuleArr + "/build"
+    def buildPathArr = buildPathArrRoot + "/outputs/aar"
+    // AAR输出路径
+    def aarOutPath = rootPathModuleArr + "/release"
+
+    delete buildPathArrRoot
+    createDir(aarOutPath)
+
+    // 执行编译AAR脚本（原生脚本） ===============
+    dependsOn 'assembleRelease'
+
+    // 循环拷贝AAR到ARR输出目录 ================
+    // 显示开始拷贝
+    println "-> Start of current copy <-"
+    // 当前目录
+    println "From : " + buildPathArr
+    from buildPathArr
+    // 拷贝至 aarOutPath
+    println "Into : " + aarOutPath
+    into aarOutPath;
+    // 显示当前拷贝结束
+    println "-> End of current copy <-"
+
+    // 任务结束
+    println "----------> AAR Release Task End <----------"
+
+}
