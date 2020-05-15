@@ -1,3 +1,2 @@
-rootProject.name='WgxCommonLibrary'
-include ':app'
+rootProject.name='GxwCommon'
 include ':library'

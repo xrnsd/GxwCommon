@@ -39,7 +39,7 @@ public class SerialPortUtil {
         return path;
     }
 
-    public String getSerialPortBaudrate() {
+    public int getSerialPortBaudrate() {
         return baudrate;
     }
 
@@ -102,7 +102,7 @@ public class SerialPortUtil {
     public boolean send(String data) {
         boolean result = true;
         //byte[] mBuffer = (cmd+"\r\n").getBytes();
-        byte[] mBuffer = Utils.hextoBytes(data);
+        byte[] mBuffer = hextoBytes(data);
         try {
             if (mOutputStream != null) {
                 mOutputStream.write(mBuffer);
@@ -211,7 +211,7 @@ public class SerialPortUtil {
     }
 
     // ============================  扩展部分  ==========================================
-    private FileOutputStream mOutputStream;
+    private FileOutputStream mDevicePowerOutputStream;
 
     private boolean writeInternalAntennaDevice(final int value, final String dev_path) {
         synchronized (new Object()) {
@@ -219,8 +219,8 @@ public class SerialPortUtil {
             File gpsAntSwitch = new File(dev_path);
             byte[] buffer = new byte[2];
             try {
-                mOutputStream = new FileOutputStream(gpsAntSwitch);
-                bos = new BufferedOutputStream(mOutputStream, buffer.length);
+                mDevicePowerOutputStream = new FileOutputStream(gpsAntSwitch);
+                bos = new BufferedOutputStream(mDevicePowerOutputStream, buffer.length);
             } catch (FileNotFoundException e) {
                 Log.e(TAG, Log.getStackTraceString(e));
             }
@@ -236,8 +236,8 @@ public class SerialPortUtil {
                     bos.close();
                     Log.d(TAG, "write val success");
                 }
-                if (null != mOutputStream) {
-                    mOutputStream.close();
+                if (null != mDevicePowerOutputStream) {
+                    mDevicePowerOutputStream.close();
                 }
                 return true;
             } catch (IOException e) {

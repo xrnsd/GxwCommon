@@ -1,4 +1,8 @@
 apply plugin: 'com.android.library'
+//added by wgx
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.xrnsd'
+//end wgx
 
 android {
     compileSdkVersion 29
@@ -8,13 +12,17 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
+        //modified by wgx
         versionName "V${buildTime()}"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        //deleted by wgx
+        //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+        //added by wgx
         ndk {
             moduleName "serial_port"
         }
+        //end wgx
     }
 
     buildTypes {
@@ -24,6 +32,7 @@ android {
         }
     }
 
+    //added by wgx
     externalNativeBuild {
         ndkBuild {
             path 'src/main/jni/Android.mk'
@@ -36,6 +45,7 @@ android {
             //outputFileName = "${project.name}_${variant.buildType.name}_${android.defaultConfig.versionName}.aar"
         }
     }
+    //end wgx
 
 }
 
@@ -43,11 +53,12 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    //testImplementation 'junit:junit:4.12'
+    //androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    //androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
 
+//added by wgx
 
 def buildTime() {
     return new Date().format('yyyyMMdd_HHmm');
@@ -60,11 +71,6 @@ def createDir = {
             dir.mkdirs()
         }
         println "Generate the corresponding directory path is" + dir.toString()
-}
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from android.sourceSets.main.java.srcDirs
 }
 
 task aarRelease(type: Copy) {
@@ -102,3 +108,4 @@ task aarRelease(type: Copy) {
     println "----------> AAR Release Task End <----------"
 
 }
+//end wgx
