@@ -4,6 +4,7 @@
 
     <string name="_permisson_location_open">to open</string>
     <string name="miss_permissions_config_title">Some permissions are missing and need to be turned on manually</string>
+    <string name="miss_permissions_config_prompt_title">Some permissions are missing:<xliff:g id="query" example="device_id">%1$s</xliff:g></string>
 
     <string name="permisson_location_title">Location permissions are not turned on</string>
     <string name="permisson_location_tips">Bluetooth search requires authorization for location information</string>
@@ -12,4 +13,6 @@
     <string name="sure">Confirm</string>
     <string name="ok">OK</string>
     <string name="tips_title">Tips</string>
+
+    <string name="restart_exit_title">APP暂时无法正常使用，建议更新APP</string>
 </resources>

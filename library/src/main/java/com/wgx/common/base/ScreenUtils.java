@@ -27,12 +27,12 @@ import java.lang.reflect.Method;
  *
  * @author zhy
  */
-public class ScreenUtil {
+public class ScreenUtils {
 
     private static final String TAG = "ScreenUtil";
 
 
-    private  ScreenUtil() {
+    private ScreenUtils() {
 		/* cannot be instantiated */
 		throw new UnsupportedOperationException("cannot be instantiated");
 	}

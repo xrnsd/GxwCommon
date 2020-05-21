@@ -1,12 +1,5 @@
 package com.wgx.common.base;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,17 +14,26 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.wgx.common.R;
-import com.wgx.common.base.CommonDialog;
 
-public class Utils {
-    private static final String TAG = "123456 Utils";
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+public class CommonUtils {
+
+    //protected final String TAG = this.getClass().getSimpleName();
+    private static final String TAG = "CommonUtils";
     public final static boolean DEBUG = Log.isLoggable(TAG, Log.DEBUG);
+
 
     public static int getStatusBarHeight(Context context) {
         Resources resources = context.getResources();
         int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
         int height = resources.getDimensionPixelSize(resourceId);
-        android.util.Log.d("123456 Launcher.getStatusBarHeight>", " statusBarHeight =" + height);
+        Log.d("123456 Launcher.getStatusBarHeight>", " statusBarHeight =" + height);
         return height;
     }
 
@@ -82,39 +84,6 @@ public class Utils {
         return new int[]{(int) dm.widthPixels, (int) dm.heightPixels};
     }
 
-    public static void runCommand(final String... command) {
-        android.util.Log.d(TAG + "runCommand: ", " " + command);
-
-        Process process = null;
-        InputStream errIs = null;
-        InputStream inIs = null;
-        String result = "";
-
-        try {
-            process = new ProcessBuilder().command(command).start();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            int read = -1;
-            errIs = process.getErrorStream();
-            while ((read = errIs.read()) != -1) {
-                baos.write(read);
-            }
-            inIs = process.getInputStream();
-            while ((read = inIs.read()) != -1) {
-                baos.write(read);
-            }
-            result = new String(baos.toByteArray());
-            if (inIs != null)
-                inIs.close();
-            if (errIs != null)
-                errIs.close();
-            process.destroy();
-        } catch (IOException e) {
-            Log.e(TAG + "runCommand: ", "IOException:" + e);
-            result = e.getMessage();
-        }
-        Log.d(TAG + "runCommand: ", "result=" + result);
-    }
-
     /**
      * action: 时间戳转UTC时间 <br/>
      */
@@ -133,45 +102,45 @@ public class Utils {
         return new SimpleDateFormat(pattern).format(Calendar.getInstance().getTime());
     }
 
-    private static CommonDialog commonDialog;
+    private static BaseDialog sBaseDialog;
 
-    public static void showSureDialog(Activity context, DialogInterface.OnClickListener ok, DialogInterface.OnClickListener cancel, String... contentList) {
+    public static void showDialog(Activity context, DialogInterface.OnClickListener ok, DialogInterface.OnClickListener cancel, String... contentList) {
         if (context.isFinishing()) {
-            if (null != commonDialog)
-                commonDialog.dismiss();
-            commonDialog = null;
+            if (null != sBaseDialog)
+                sBaseDialog.dismiss();
+            sBaseDialog = null;
             return;
         }
-        if (null != commonDialog) {
-            if (commonDialog.getActivityContext().isFinishing()) {
-                commonDialog = null;
-            } else if (commonDialog.getActivityContext() != context) {
-                commonDialog = null;
-            } else if (null != commonDialog.getMessage()
+        if (null != sBaseDialog) {
+            if (sBaseDialog.getActivityContext().isFinishing()) {
+                sBaseDialog = null;
+            } else if (sBaseDialog.getActivityContext() != context) {
+                sBaseDialog = null;
+            } else if (null != sBaseDialog.getMessage()
                     && null != contentList[0]
-                    && !commonDialog.getMessage().equals(contentList[0])) {
-                commonDialog = null;
+                    && !sBaseDialog.getMessage().equals(contentList[0])) {
+                sBaseDialog = null;
             }
         }
-        if (null == commonDialog) {
+        if (null == sBaseDialog) {
             if (null != contentList
                     && contentList.length > 1
                     && null != contentList[0]
                     && null != contentList[1])
-                commonDialog = new CommonDialog.Builder(context)
+                sBaseDialog = new BaseDialog.Builder(context)
                         .isVertical(false).setTitle(contentList[0])
                         .setLeftButton(R.string.cancel, cancel)
                         .setTitle(R.string.tips_title)
                         .setMessage(contentList[1])
                         .setRightButton(context.getString(R.string.sure), ok)
                         .create();
-            commonDialog.setContext(context);
+            sBaseDialog.setContext(context);
         }
         try {
-            commonDialog.show();
+            sBaseDialog.show();
         } catch (WindowManager.BadTokenException e) {
             Log.e(TAG, Log.getStackTraceString(e));
-            commonDialog = null;
+            sBaseDialog = null;
         }
     }
 

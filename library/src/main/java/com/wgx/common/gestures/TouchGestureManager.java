@@ -8,7 +8,7 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.OrientationEventListener;
 
-import com.wgx.common.base.Utils;
+import com.wgx.common.base.CommonUtils;
 /**
  * action:TODO
  * 
@@ -62,7 +62,7 @@ public class TouchGestureManager extends OrientationEventListener {
         THRESHOLDVALUE_LEFT=THRESHOLDVALUE_RIGHT=THRESHOLDVALUE_BOTTOM;
         THRESHOLDVALUE_MOVE=(THRESHOLDVALUE_MOVE * scale + 0.5f);
         mTriggerCoordinatesXLeft=THRESHOLDVALUE_LEFT;
-        int[] screenInfo = Utils.getScreenInfo(context);
+        int[] screenInfo = CommonUtils.getScreenInfo(context);
         mTriggerCoordinatesXRight=screenInfo[0]-THRESHOLDVALUE_RIGHT;
         mTriggerCoordinatesYBottom=screenInfo[1]-THRESHOLDVALUE_BOTTOM;
     }

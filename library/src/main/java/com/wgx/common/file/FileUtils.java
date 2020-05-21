@@ -27,9 +27,6 @@ import android.util.Log;
  * author: wuguoxian <br/>
  * date: 20200521 <br/>
  * version:V0.2<br/>
- * remark:<br/>
- * &nbsp 01  <br/>
- * </p>
  */
 public class FileUtils {
     private static final String TAG = "FileUtils";

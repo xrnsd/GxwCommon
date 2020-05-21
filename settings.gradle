@@ -1,2 +1,3 @@
 rootProject.name='GxwCommon'
 include ':library'
+include ':app'

@@ -17,12 +17,12 @@ import com.wgx.common.R;
 
 /**
  */
-public class CommonDialog extends Dialog {
-    public CommonDialog(Context context) {
+public class BaseDialog extends Dialog {
+    public BaseDialog(Context context) {
         super(context);
     }
 
-    public CommonDialog(Context context, int themeResId) {
+    public BaseDialog(Context context, int themeResId) {
         super(context, themeResId);
     }
 
@@ -172,9 +172,9 @@ public class CommonDialog extends Dialog {
 
         private  int type=-1;
 
-        public CommonDialog create() {
+        public BaseDialog create() {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
-            final CommonDialog dialog = new CommonDialog(context, R.style.dialog);
+            final BaseDialog dialog = new BaseDialog(context, R.style.dialog);
             View layout = null;
             if (type==-1){
                 layout = layoutInflater.inflate(isVertical ? R.layout.common_dialog_vertical_layout : R.layout.common_dialog_layout, null);
@@ -187,10 +187,10 @@ public class CommonDialog extends Dialog {
             dialog.setCanceledOnTouchOutside(true);
             if (type==-1) {
                 if (!isVertical) {
-                    dialog.getWindow().getAttributes().width = (int) (ScreenUtil.getScreenWidth(context) * 0.75f);
+                    dialog.getWindow().getAttributes().width = (int) (ScreenUtils.getScreenWidth(context) * 0.75f);
                 }
             }else{
-                dialog.getWindow().getAttributes().width = (int) (ScreenUtil.getScreenWidth(context) * 0.9f);
+                dialog.getWindow().getAttributes().width = (int) (ScreenUtils.getScreenWidth(context) * 0.9f);
                 dialog.getWindow().setGravity(Gravity.BOTTOM);
             }
             if (!TextUtils.isEmpty(title)) {
