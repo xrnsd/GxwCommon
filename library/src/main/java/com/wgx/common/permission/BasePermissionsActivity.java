@@ -15,7 +15,7 @@ import android.provider.Settings;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.wgx.common.R;
-import com.wgx.common.base.Utils;
+import com.wgx.common.base.CommonUtils;
 
 /**
  * 需要进行运行时权限检测的Activity可以继承这个类
@@ -134,7 +134,7 @@ public class BasePermissionsActivity extends AppCompatActivity {
     }
 
     private void showMissingPermissionDialog() {
-        Utils.showSureDialog(BasePermissionsActivity.this,
+        CommonUtils.showDialog(BasePermissionsActivity.this,
             new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

@@ -9,10 +9,13 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
+import com.wgx.common.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,8 +87,8 @@ public class PermissionUtil {
      * @param permission 权限
      * @return 是否有权限
      */
-    public static boolean checkSelfPermission(Context context,String... permission) {
-        if ((findDeniedPermissions(context,permission)).isEmpty()) {
+    public static boolean checkSelfPermission(Context context, String... permission) {
+        if ((findDeniedPermissions(context, permission)).isEmpty()) {
             return true;
         }
         return false;
@@ -95,7 +98,7 @@ public class PermissionUtil {
     private static void startWriteSettingsActivity(final Activity activity, final int requestCode) {
         Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
         intent.setData(Uri.parse("package:" + activity.getPackageName()));
-        if (!isIntentAvailable(activity,intent)) {
+        if (!isIntentAvailable(activity, intent)) {
             launchAppDetailsSettings(activity);
             return;
         }
@@ -109,7 +112,7 @@ public class PermissionUtil {
     public static void launchAppDetailsSettings(Context context) {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setData(Uri.parse("package:" + context.getPackageName()));
-        if (!isIntentAvailable(context,intent)) return;
+        if (!isIntentAvailable(context, intent)) return;
         context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
@@ -142,7 +145,7 @@ public class PermissionUtil {
         } else {
             return;
         }
-        List<String> deniedPermissions = findDeniedPermissions(activity,permissions);
+        List<String> deniedPermissions = findDeniedPermissions(activity, permissions);
 
         if (deniedPermissions.size() > 0) {
             if (object instanceof Activity) {
@@ -167,6 +170,19 @@ public class PermissionUtil {
         } else {
             requsetResult.requestPermissionsSuccess(requestCode);
         }
+    }
+
+    public static void showToastMissPermissionsAndManually(Context context, String... permissionList) {
+        if (null == context
+                || null == permissionList
+                || permissionList.length < 1)
+            return;
+        StringBuilder permissions=new StringBuilder();
+        for (String permission: permissionList) {
+            permissions.append("\n").append(permission);
+        }
+        Toast.makeText(context,context.getString(
+                R.string.miss_permissions_config_prompt_title, permissions.toString()), 0).show();
     }
 
     public interface RequsetResult {
